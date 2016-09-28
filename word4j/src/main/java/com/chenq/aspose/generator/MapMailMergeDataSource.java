@@ -49,13 +49,11 @@ public class MapMailMergeDataSource implements IMailMergeDataSource {
 		return this.dataList.size();
 	}
 	
-	@Override
 	public IMailMergeDataSource getChildDataSource(String arg0)
 			throws Exception {
 		return null;
 	}
 
-	@Override
 	public String getTableName() throws Exception {
 		return this.tableName;
 	}
@@ -66,7 +64,6 @@ public class MapMailMergeDataSource implements IMailMergeDataSource {
 	 * 将数据存入args数组中即可
 	 * @return ***返回false则不绑定数据***
 	 */
-	@Override
 	public boolean getValue(String key, Object[] args) throws Exception {
 		if(index < 0 || index >= this.getCount()) {
             return false;
@@ -83,7 +80,6 @@ public class MapMailMergeDataSource implements IMailMergeDataSource {
 	 * 实现接口
 	 * 判断是否还有下一条记录
 	 */
-	@Override
 	public boolean moveNext() throws Exception {
 		index += 1;
 		if(index >= this.getCount())

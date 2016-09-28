@@ -10,7 +10,6 @@ public abstract class FormGen<T> extends BaseGenerator {
 	
 	/**
 	 * 将对象的属性和值转换成Map，填充表单
-	 * @param entity
 	 * @return
 	 */
 	protected Map<String, Object> parseFormData() {
@@ -21,7 +20,7 @@ public abstract class FormGen<T> extends BaseGenerator {
 		// 查询不到实体时，默认提供一个空构造器的实体类，将文档中的占位符替换成空字符串
 		if (t == null) {
 			@SuppressWarnings("unchecked")
-			Class<T> clazz = ReflectHelper.getSuperClassGenricType(this.getClass()); 
+			Class<T> clazz = ReflectHelper.getSuperClassGenricType(this.getClass());
 			try {
 				t = clazz.newInstance();
 			} catch (Exception e) {

@@ -9,7 +9,13 @@ import java.util.List;
 
 public class GenHelper {
 	public static final String check  = "☑";
-	public static final String uncheck  = "□"; 
+	public static final String uncheck  = "□";
+
+	public static final String BOOT_PATH;
+	static {
+		// replace替换文件中的'%20'为空格,substring去掉开头的'/'
+		BOOT_PATH = GenHelper.class.getClassLoader().getResource("").getPath().replace("%20", " ").substring(1);
+	}
 
     /**
      * 千分位,以及格式化
@@ -51,12 +57,29 @@ public class GenHelper {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> List<T> createTestData4Table(Class<T> clazz) throws Exception {
+	public static <T> List<T> createTestData4Table(Class<T> clazz) {
 		List<T> list = new ArrayList<T>();
+		for (int i = 0; i < 10; i++) {
+			T t = null;
+			try {
+				t = createTestData4Form(clazz);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			list.add(t);
+		}
+
+		return list;
+	}
+
+	public static <T> T createTestData4Form(Class<T> clazz) {
 		Field[] fields = clazz.getDeclaredFields();
-		for (int i=0;i<10;i++){
-			T t = clazz.newInstance();
+		T t = null;
+		try {
+			t = clazz.newInstance();
+			int i = 0;
 			for (Field field : fields) {
+				i++;
 				field.setAccessible(true);
 				Type type = field.getGenericType();
 				// 如果类型是String
@@ -83,45 +106,9 @@ public class GenHelper {
 				if (type.toString().equals("class java.lang.Short")) {
 					field.set(t, (short) i);
 				}
-				// 如果还需要其他的类型请自己做扩展
 			}
-			list.add(t);
-		}
-		return list;
-	}
-	
-	public static <T> T createTestData4Form(Class<T> clazz) throws Exception {
-		Field[] fields = clazz.getDeclaredFields();
-		T t = clazz.newInstance();
-		int i = 0;
-		for (Field field : fields) {
-			i++;
-			field.setAccessible(true);
-			Type type = field.getGenericType();
-			// 如果类型是String
-			if (type.toString().equals("class java.lang.String")) { // 如果type是类类型，则前面包含"class "，后面跟类名
-				field.set(t, field.getName() + i);
-			}
-			// 如果类型是Integer
-			if (type.toString().equals("class java.lang.Integer")) {
-				field.set(t, i);
-			}
-			// 如果类型是Double
-			if (type.toString().equals("class java.lang.Double")) {
-				field.set(t, new Double(i + 1));
-			}
-			// 如果类型是Date
-			if (type.toString().equals("class java.util.Date")) {
-				field.set(t, new Date());
-			}
-			// 如果类型是Boolean 是封装类
-			if (type.toString().equals("class java.lang.Boolean")) {
-				field.set(t, i % 2 == 0 ? false : true);
-			}
-			// 如果类型是Short
-			if (type.toString().equals("class java.lang.Short")) {
-				field.set(t, (short) i);
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return t;
 	}

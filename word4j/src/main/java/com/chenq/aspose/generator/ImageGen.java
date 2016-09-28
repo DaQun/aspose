@@ -12,14 +12,14 @@ public class ImageGen extends BaseGenerator{
 	
 	@Override
 	protected String getTemplateName() {
-		return "空模板文档.docx";
+		return "empty.docx";
 	}
 	
 	public ImageGen(String imagePath) {
 		try{
 			File file = new File(imagePath);
 			if (file.exists()) {
-				this.fis = new FileInputStream(new File(imagePath));
+				this.fis = new FileInputStream(file);
 			}
 		} catch (Exception e) {
 			logger.warn(e);

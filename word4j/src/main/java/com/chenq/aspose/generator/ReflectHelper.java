@@ -21,14 +21,6 @@ public class ReflectHelper {
 		for (Field field : fields) {
 			String fieldName = field.getName();
 			Object fieldValue = getValueByFieldName(fieldName, obj);
-//			Type type = field.getGenericType();
-//			if (type.toString().equals("class java.util.Date") || type.toString().equals("class java.sql.Date")) {
-//				map.put(fieldName, fieldValue);
-//			} else if(type.toString().equals("class java.lang.Double")){
-//				map.put(fieldName, fieldValue == null ? 0d : fieldValue);
-//			} else {
-//				map.put(fieldName, fieldValue == null ? "" : fieldValue);
-//			}
 			map.put(fieldName, fieldValue == null ? "" : fieldValue);
 		}
 		return map;

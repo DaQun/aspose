@@ -14,7 +14,7 @@ public abstract class BaseGenerator {
 	
 	protected final static Logger logger = Logger.getLogger(BaseGenerator.class);
 	// 模板文件存放目录
-//	private final String TEMPLATE_PATH = "C:/Users/chenq/Desktop/magus/aspose生成模板/";
+//	private final String TEMPLATE_PATH = "C:/Users/chenq/Desktop/aspose生成模板/";
 	private final String TEMPLATE_PATH = "wordTemplate/";
 	// 生成文件输出目录
 	private final String OUT_PATH = "D:/wordExport/";
@@ -51,8 +51,7 @@ public abstract class BaseGenerator {
 	 */
 	protected String getTemplatePath() {
 		String path = TEMPLATE_PATH + getTemplateName();
-		path = BaseGenerator.class.getClassLoader().getResource("").getPath().replaceAll("%20", " ") +path;
-		path = path.substring(1);
+		path = GenHelper.BOOT_PATH + path;
 		return path;
 	}
 	/**
@@ -79,7 +78,7 @@ public abstract class BaseGenerator {
 		return doc;
 	}
 	
-	public abstract Document createDocument() throws Exception;
+	protected abstract Document createDocument() throws Exception;
 	
 	 /** 
      * 替换内容的主要操作 
